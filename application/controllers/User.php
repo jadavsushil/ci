@@ -110,7 +110,6 @@ class User extends CI_Controller {
 		    }
 		    else{
 		    	$this->session->set_flashdata('message', $this->email->print_debugger());
- 
 		    }
  
         	redirect('register');

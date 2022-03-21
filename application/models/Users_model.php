@@ -48,5 +48,20 @@ class Users_model extends CI_Model {
             return $data;
         }
     }
-  
+    
+    public function showUserInformation(){
+        return $this->db->select('*')
+                        ->from('users')
+                        ->where('id',$_SESSION['user_id'])
+                        ->get()
+                        ->row();
+    }
+
+    public function showAllActiveProducts(){
+        return $this->db->select('*')
+                        ->from('products')
+                        ->where('status','1')
+                        ->get()
+                        ->result();
+    }
 }

@@ -19,10 +19,14 @@ class Welcome extends CI_Controller {
             redirect('user/login');
         }
 	}
-	
+
 	public function index()
 	{
-		$this->load->view('dashboard');
+		$data=array();
+		$data['title']="User Dashboard";
+		$data['user_details'] = $this->users_model->showUserInformation();
+		$data['show_product'] = $this->users_model->showAllActiveProducts();
+		$this->load->view('dashboard',$data);
 	}
 
 	public function logout(){
