@@ -26,11 +26,17 @@ class Welcome extends CI_Controller {
 		$data['title']="User Dashboard";
 		$data['user_details'] = $this->users_model->showUserInformation();
 		$data['show_product'] = $this->users_model->showAllActiveProducts();
+		$data['show_userProduct'] = $this->users_model->showUserProduct();
+		
 		$this->load->view('dashboard',$data);
 	}
 
 	public function logout(){
 		$this->session->sess_destroy();
 		redirect('user/login');
+	}
+
+	public function user_addProduct(){
+		return $this->users_model->add_userProducts($this->input->post('id'),$this->input->post('qty'),$this->input->post('price'));
 	}
 }

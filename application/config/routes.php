@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //user dashboard
 $route['dashboard'] = 'welcome';
 $route['logout'] = 'welcome/logout';
+$route['user_addProduct'] = 'welcome/user_addProduct';
 
 //Admin dashboard
 $route['admin/dashboard'] = 'admin';

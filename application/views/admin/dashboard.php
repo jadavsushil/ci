@@ -66,7 +66,7 @@
             <tr>
                 <th>Image</th>
                 <td>
-                    <input type="file" name="product_image" id="product_image">
+                    <input type="file" name="product_image" id="product_image" >
                 </td>
             </tr>
             <tr>
@@ -93,7 +93,7 @@
                 <td><?php echo $i;$i++; ?></td>
                 <td><?php echo $result->title ?></td>
                 <td><?php echo $result->description ?></td>
-                <td><img src="<?= base_url('uploads/'.$result->image) ?>" alt=""></td>
+                <td><img src="<?= base_url('uploads/'.$result->image) ?>" alt="" style="width:110px;"></td>
                 <td>
                     <?php if($result->status='1'){ ?>
                         <button class="btn btn-success">Active</button>
