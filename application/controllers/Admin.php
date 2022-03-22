@@ -26,8 +26,29 @@ class Admin extends CI_Controller {
 		$data['show_product_records'] = $this->admin_model->showAllProducts();
 		$data['show_active_users'] = $this->admin_model->show_active_users();
 		$data['show_active_products'] = $this->admin_model->show_active_products();
+		$data['countActVerUserProduct'] = $this->admin_model->countActVerUserProduct();
+		$data['countActProDontUser'] = $this->admin_model->countActProDontUser();
+		$data['CountQTYActiveProductsUser'] = $this->admin_model->CountQTYActiveProductsUser();
+		$data['CountPriceActiveProductsUser'] = $this->admin_model->CountPriceActiveProductsUser();
+		$data['getAllUsers'] = $this->admin_model->getAllUsers();
 		
 		$this->load->view('admin/dashboard',$data);
+	}
+
+	public function products()
+	{
+		$data=array();
+		$data['title']='Products';
+		$data['show_product_records'] = $this->admin_model->showAllProducts();
+		$data['show_active_users'] = $this->admin_model->show_active_users();
+		$data['show_active_products'] = $this->admin_model->show_active_products();
+		$data['countActVerUserProduct'] = $this->admin_model->countActVerUserProduct();
+		$data['countActProDontUser'] = $this->admin_model->countActProDontUser();
+		$data['CountQTYActiveProductsUser'] = $this->admin_model->CountQTYActiveProductsUser();
+		$data['CountPriceActiveProductsUser'] = $this->admin_model->CountPriceActiveProductsUser();
+		$data['getAllUsers'] = $this->admin_model->getAllUsers();
+		
+		$this->load->view('admin/products',$data);
 	}
 
 	public function logout(){
@@ -64,9 +85,13 @@ class Admin extends CI_Controller {
 
 		if($this->admin_model->store_product($data)){
 			$this->session->set_flashdata('message','Product Inserted Successfully!');
-			redirect('admin/dashboard');			
+			redirect('admin/products');			
 		}
 
-		redirect('admin/dashboard');
+		redirect('admin/products');
+	}
+
+	public function updateProductStatus(){
+		echo $this->admin_model->updateProductStatus($this->input->post('id'));
 	}
 }
