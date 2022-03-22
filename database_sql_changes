@@ -1,0 +1,131 @@
+DROP TABLE users;
+DROP TABLE products;
+DROP TABLE user_products;
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(70) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `role` enum('admin','user') NOT NULL,
+  `code` varchar(20) NOT NULL,
+  `active` int(11) NOT NULL,
+  `status` enum('0','1') NOT NULL DEFAULT '1' COMMENT '0=''deactive'',1=''active''',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `code`, `active`, `status`, `created_at`, `updated_at`) VALUES
+(29, 'John Summer', 'devsms818@gmail.com', 'fcea920f7412b5da7be0cf42b8c93759', 'user', 'COgamDqwHA5t', 1, '1', '2022-03-21 18:31:25', '2022-03-21 18:31:25'),
+(30, 'Lennon Green', 'dasdas@gmail.com', 'fcea920f7412b5da7be0cf42b8c93759', 'user', 'COgamDqwHA5t', 1, '0', '2022-03-21 18:31:25', '2022-03-21 18:31:25'),
+(31, 'Devin Leo', 'demouser@gmail.com', 'fcea920f7412b5da7be0cf42b8c93759', 'user', 'COgamDqwHA5t', 1, '1', '2022-03-21 18:31:25', '2022-03-21 18:31:25'),
+(32, 'Admin', 'admin@gmail.com', 'fcea920f7412b5da7be0cf42b8c93759', 'admin', '', 1, '1', '2022-03-21 18:31:25', '2022-03-21 18:31:25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `title` varchar(70) NOT NULL,
+  `description` text NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `status` enum('1','2') NOT NULL COMMENT '1=''Active'',2=''Deactive''',
+  `timestamps` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `title`, `description`, `image`, `status`, `timestamps`) VALUES
+(1, 'prod4', 'asdasdas', 'favicon2.png', '2', '2022-03-21 19:41:30'),
+(2, 'Iphone', 'Iphone', 'download_asd.jpeg', '2', '2022-03-22 10:04:54'),
+(3, 'Samsung1', 'Samsung1', 'download.jpeg', '1', '2022-03-22 10:04:29'),
+(4, 'Samsung2', 'Samsung2', '91CNgv7nHHL__SY445_.jpg', '1', '2022-03-22 10:04:45'),
+(11, 'realme 9+ pro', 'realme 9+ pro', 'realme-9-pro-front-1.jpg', '1', '2022-03-22 12:24:15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_products`
+--
+
+CREATE TABLE `user_products` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `qty` varchar(30) NOT NULL,
+  `price` varchar(30) NOT NULL,
+  `status` enum('1','2') NOT NULL DEFAULT '1' COMMENT '1=''Active'', 2=''Deactive''',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+--
+-- Indexes for table `user_products`
+--
+ALTER TABLE `user_products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Dumping data for table `user_products`
+--
+
+INSERT INTO `user_products` (`id`, `user_id`, `product_id`, `qty`, `price`, `status`, `created_at`, `updated_at`) VALUES
+(7, 29, 3, '3', '100', '1', '2022-03-22 10:07:56', '2022-03-22 10:07:56'),
+(11, 29, 4, '2', '120', '1', '2022-03-22 10:07:56', '2022-03-22 10:07:56'),
+(13, 30, 4, '7', '120', '1', '2022-03-22 10:07:56', '2022-03-22 10:07:56'),
+(14, 30, 2, '4', '200', '1', '2022-03-22 10:08:05', '2022-03-22 10:08:05');
+
+
+
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `user_products`
+--
+ALTER TABLE `user_products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+
+--
+-- Constraints for table `user_products`
+--
+ALTER TABLE `user_products`
+  ADD CONSTRAINT `user_products_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
