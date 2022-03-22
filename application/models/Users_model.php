@@ -64,4 +64,25 @@ class Users_model extends CI_Model {
                         ->get()
                         ->result();
     }
+
+    public function add_userProducts($id,$qty,$price){
+        $data=array();
+        $data['user_id']=$_SESSION['user_id'];
+        $data['product_id']=$id;
+        $data['qty']=$qty;
+        $data['price']=$price;
+        $this->db->insert('user_products',$data);
+        return $this->db->insert_id();
+    }
+
+    public function showUserProduct(){
+        return $this->db->select('UP.*,PRO.title,PRO.description,PRO.image,sum(UP.qty) TOTALQTY')
+                        ->from('user_products UP')
+                        ->join('products PRO','PRO.id=UP.product_id')
+                        ->where('UP.user_id',$_SESSION['user_id'])
+                        ->group_by('UP.product_id')
+                        ->group_by('UP.price')
+                        ->get()
+                        ->result();
+    }
 }
