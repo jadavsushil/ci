@@ -10,11 +10,27 @@
 </head>
 
 <body>
-    <h1>Admin Dashboard</h1>
-    <a href="<?= base_url('admin/logout'); ?>">Logout</a>
-
-    <div class="container">
-        <div class="col-sm-2">
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="<?= base_url('/admin/dashboard') ?>">Admin</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="<?= base_url('/admin/dashboard') ?>">Home</a></li>
+      <li><a href="<?= base_url('/admin/products') ?>">Products</a></li>
+      
+    </ul>
+   
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="<?= base_url('admin/logout'); ?>"> Logout</a></li>
+    </ul>
+    
+  </div>
+</nav>
+    
+    <div class="container-fluid">
+       
+        <div class="col-sm-4">
             <div class="alert alert-info text-center">
                 <b>Total Active Users</b> <br> 
                 <?php 
@@ -23,88 +39,106 @@
             </div>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="alert alert-info text-center">
                 <b>Total Active Products</b> <br> 
                 <?php 
-                     echo count($show_active_products);
+                    echo count($show_active_products);
                 ?>
             </div>
         </div>
 
-    <div class="row">
-		<div class="col-sm-4">
-			<?php
-				if($this->session->flashdata('message')){
-					?>
-					<div class="alert alert-info text-center">
-						<?php echo $this->session->flashdata('message'); ?>
-					</div>
-					<?php
-					unset($_SESSION['message']);
-				}	
-		    ?>
+        <div class="col-sm-4">
+            <div class="alert alert-info text-center">
+                <b>Active and verified users who have attached active products</b> <br> 
+                <?php 
+                     echo count($countActVerUserProduct);
+                ?>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="alert alert-info text-center">
+                <b>Active products which don't belong to any user</b> <br> 
+                <?php 
+                     echo count($countActProDontUser);
+                ?>
+            </div>
+        </div>
+        
+        <div class="col-sm-4">
+            <div class="alert alert-info text-center">
+                <b> Quantity of all active attached products</b> <br> 
+                <?php 
+                     echo $CountQTYActiveProductsUser->TotalProduct;
+                ?>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="alert alert-info text-center">
+                <b> Summarized price of all active attached products</b> <br> 
+                <?php 
+                     echo $CountPriceActiveProductsUser;
+                ?>
+            </div>
         </div>
     </div>
 
-    <form method="post" action="<?= base_url('admin/add_product') ?>" enctype="multipart/form-data">
-        <table class="table">
-            <tr>
-                <th>Title</th>
-                <td>
-                    <input type="text" name="title" id="title">
-                </td>
-            <tr>
-
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>
-                    <textarea name="description" id="description" cols="30" rows="10"></textarea>
-                </td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>
-                    <input type="file" name="product_image" id="product_image" >
-                </td>
-            </tr>
-            <tr>
-                <th></th>
-                <td>
-                    <input type="submit" name="submit">
-                </td>
-            </tr>
-
-        </table>
-    </form>
-
-    <table class="table">
-        <thead>
-            <th>Sl No.</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Image</th>
-            <th>Status</th>
-        </thead>
-        <tbody>
-            <?php $i=1; foreach($show_product_records as $result){ ?>
-            <tr>
-                <td><?php echo $i;$i++; ?></td>
-                <td><?php echo $result->title ?></td>
-                <td><?php echo $result->description ?></td>
-                <td><img src="<?= base_url('uploads/'.$result->image) ?>" alt="" style="width:110px;"></td>
-                <td>
-                    <?php if($result->status='1'){ ?>
-                        <button class="btn btn-success">Active</button>
-                    <?php }else{ ?>
-                        <button class="btn btn-danger">De-active</button>
+    <div class="container">
+        <div class="row">
+        <div class="col-sm-8">
+                <h3 class="text-center">All Users Summarized Price</h3>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sl No.</th>
+                            <th>Full Name</th>
+                            <th>Summarized Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i=1; foreach($getAllUsers as $result){ 
+                            $total_summ_price = $this->admin_model->getSumProPrice($result->id);    
+                        ?>
+                        <tr>
+                            <td><?php echo  $i;$i++; ?></td>
+                            <td><?php echo $result->name ?></td>
+                            <td><?php echo '$'.$total_summ_price; ?></td>
+                           
+                        </tr>
                     <?php } ?>
-                </td>
-            </tr>
-            <?php } ?>
-        </tbody>
-    </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        function updateStatus(e) {
+            var id = e.id;
+
+            $.ajax({
+                type: 'POST',
+                url: "<?php echo base_url('/admin/updateProductStatus'); ?>",
+                data: {
+                    id: id
+                },
+                error: function() {
+                    alert('Something is wrong');
+                },
+                success: function(data) {
+                   window.location.reload();
+                }
+            });
+        }
+    </script>
+
 </body>
 
 </html>

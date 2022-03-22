@@ -8,7 +8,9 @@ $route['user_addProduct'] = 'welcome/user_addProduct';
 
 //Admin dashboard
 $route['admin/dashboard'] = 'admin';
+$route['admin/products'] = 'admin/products';
 $route['admin/logout'] = 'admin/logout';
+$route['admin/updateProductStatus'] = 'admin/updateProductStatus';
 
 $route['default_controller'] = 'user';
 $route['register'] = 'user';
