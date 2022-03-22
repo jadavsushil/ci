@@ -21,6 +21,8 @@ class Admin extends CI_Controller {
 
 	public function index()
 	{
+		$response = json_decode(file_get_contents('http://api.exchangeratesapi.io/v1/latest?access_key=cee212a839adf0ce9f3cafc93f3f8890&symbols=USD,RON,INR'));
+		
 		$data=array();
 		$data['title']='Dashboard';
 		$data['show_product_records'] = $this->admin_model->showAllProducts();
@@ -31,6 +33,7 @@ class Admin extends CI_Controller {
 		$data['CountQTYActiveProductsUser'] = $this->admin_model->CountQTYActiveProductsUser();
 		$data['CountPriceActiveProductsUser'] = $this->admin_model->CountPriceActiveProductsUser();
 		$data['getAllUsers'] = $this->admin_model->getAllUsers();
+		$data['exchangeCurrency'] = $response->rates;
 		
 		$this->load->view('admin/dashboard',$data);
 	}

@@ -22,12 +22,35 @@
     </ul>
    
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="<?= base_url('admin/logout'); ?>"> Logout</a></li>
+        <li>
+            <a href="#" style="color:white;"><b>1 RON to USD : <?php echo round($exchangeCurrency->RON / $exchangeCurrency->USD,3);?></b> || <b>1 USD to RON : <?php echo round($exchangeCurrency->USD / $exchangeCurrency->RON,3);?></b></a> | 
+        </li>
+        <li><a href="<?= base_url('admin/logout'); ?>"> Logout</a></li>
     </ul>
     
   </div>
 </nav>
     
+    <div class="container-fluid">
+       
+    
+        <div class="col-sm-4">
+            <div class="alert alert-info text-center">
+                <b>USD to RON</b> <br> 
+                <?php 
+                     echo round($exchangeCurrency->RON / $exchangeCurrency->USD,3);
+                ?>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="alert alert-info text-center">
+                <b>RON to USD</b> <br> 
+                <?php 
+                     echo round($exchangeCurrency->USD / $exchangeCurrency->RON,3);
+                ?>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid">
        
         <div class="col-sm-4">
