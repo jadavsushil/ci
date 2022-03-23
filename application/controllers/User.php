@@ -22,7 +22,7 @@ class User extends CI_Controller {
 	}
  
 	public function index(){
-		$this->load->view('login', $this->data);
+		$this->load->view('register', $this->data);
 	}
     
     public function login(){
@@ -42,6 +42,7 @@ class User extends CI_Controller {
                 redirect('/dashboard');
             }
        }
+	   
     }
 
 	public function register(){
