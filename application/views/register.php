@@ -43,7 +43,9 @@
 					<input type="password" class="form-control" id="password_confirm" name="password_confirm" value="<?php echo set_value('password_confirm'); ?>">
 				</div>
 				<button type="submit" class="btn btn-primary">Register</button>
+				<a href="<?= base_url('user/login') ?>">Login</a>
 			</form>
+			
 		</div>
 		
 	</div>
